@@ -5,7 +5,7 @@ import geopy
 from geopy import GoogleV3
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.distance import great_circle
-from regex import F
+from os.path import exists
 
 amesRealEstate = pd.read_csv('../data/Ames_Real_Estate_Data.csv')
 with open('../data/googleApiKey.json') as d:
@@ -50,3 +50,5 @@ def getLocation(address):
         return location
     except BaseException:
         return None
+
+ 
