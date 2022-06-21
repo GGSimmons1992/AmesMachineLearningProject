@@ -6,6 +6,7 @@ from geopy import GoogleV3
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.distance import great_circle
 from os.path import exists
+from IPython.display import display, HTML
 
 amesRealEstate = pd.read_csv('../data/Ames_Real_Estate_Data.csv')
 with open('../data/googleApiKey.json') as d:
@@ -56,5 +57,10 @@ def removeDummiesAndCorrelatedFeaturesFromAvailabilityList(availabilityList,feat
     for corrFeature in sigCorrDictionary[feature]:
         if corrFeature in availabilityList:
             availabilityList.remove(corrFeature)
+    if feature in availabilityList:
+        availabilityList.remove(feature)
     return availabilityList
+
+def pretty_print(df):
+    return display( HTML( df.to_html().replace("\\n","<br>") ) )
     
