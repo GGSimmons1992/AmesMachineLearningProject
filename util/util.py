@@ -15,20 +15,6 @@ locator = GoogleV3(api_key=apiKey)
 geocode = RateLimiter(locator.geocode, min_delay_seconds=1.5)
 ISU = geocode('Iowa State University, Ames, USA').point[0:2]
 
-def markOutliers(values):
-    if (type(values)==list):
-        values = np.array(values)
-    sd = np.std(values)
-    xbar = np.mean(values)
-    datamin = xbar - ( 26 * sd )
-    datamax = xbar + ( 26 * sd )
-    return ((values < datamin) | (values > datamax))
-
-def removeOutliers(df):
-    for col in df.columns:
-        df = df[markOutliers(df[col]) == False]
-    return df
-
 def returnDFWithISUDistance(df,displayNoneNumber = False):
     
     pids = df['PID'].to_frame()
@@ -57,3 +43,18 @@ def replaceNansWithTrainingDataValues(df):
     for col in df.columns:
         df[col] = df[col].fillna(trainNanReplacementValuesDictionary[str(col)])
     return df
+
+def removeDummiesAndCorrelatedFeaturesFromAvailabilityList(availabilityList,feature):
+    with open('../data/sigCorrDictionary.json') as d:
+        sigCorrDictionary = json.load(d)
+    with open('../data/relatedDummiesDictionary.json') as d:
+        relatedDummiesDictionary = json.load(d)
+    if (feature in relatedDummiesDictionary.keys()):
+        for dummy in relatedDummiesDictionary[feature]:
+            if dummy in availabilityList:
+                availabilityList.remove(dummy)
+    for corrFeature in sigCorrDictionary[feature]:
+        if corrFeature in availabilityList:
+            availabilityList.remove(corrFeature)
+    return availabilityList
+    
