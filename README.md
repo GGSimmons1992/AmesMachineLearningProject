@@ -1,6 +1,6 @@
 # AmesMachineLearningProject
 
-Insert summary here
+House prices vary on various different features attached to each house. This project focuses on the training of a linear regression and a random forest regressor. 
 
 ## data (not included. Using .gitignore)
 
@@ -12,11 +12,13 @@ Images contains 4 subfolders -- isHeteroskedastic, isHomoSkedastic, normalCheck,
 
 ## notebooks
 
-dataProcessor.ipynb is my pipeline used to generate all figures. First, ensure all data mentioned in the data section above is in a data folder (which should be at the same level of the other folders). Second, make sure the names and paths of .csv file in the Data Manipulation section match up with the .csv files in the data folder (See last sentence in data section of this readme). Once the data is in the data folder and the paths in the read_csv commands are verified to match the data in the data folder, one can run the whole notebook, to populate the images folders with the correct images.
+eda.ipynb is my initial eda of the data and a ground for testing python funcationality
 
-## src
+machineLearning.ipynb is my pipeline used to add dummies to the original dataset, train-test-split the dataset, and train and test the linear regression model and the RandomForestRegressor. 
 
-utils.py is a custom python module that notebooks/dataProcess.ipynb uses.
+## util
+
+util.py is a custom python module that notebooks use.
 
 ## License
 
