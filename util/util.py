@@ -242,3 +242,20 @@ def checkNormality(values,name,boxCoxValue):
 
 def hasInfOrNanValues(arr):
     np.isnan(arr).any()
+
+def plotCorrelation(x,y,name):
+    plt.figure()
+    plt.scatter(x,y)
+
+    corrVal,pVal = stats.spearmanr(x,y)
+
+    linmodel = lm.LinearRegression()
+    linmodel.fit(np.array(x).reshape(-1,1),np.array(y).reshape(-1,1))
+    m = linmodel.coef_[0]
+    b = linmodel.intercept_
+    fitX = np.linspace(min(x),max(x),100)
+    plt.plot(fitX,m*fitX+b)
+    plt.title(f'{name} R={round(corrVal,2)}')
+    plt.savefig(f'../images/sigCorrs/{name}.png')
+    plt.close()
+    

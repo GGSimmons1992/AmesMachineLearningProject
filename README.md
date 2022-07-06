@@ -1,6 +1,6 @@
 # AmesMachineLearningProject
 
-House prices vary on various different features attached to each house. This project focuses on the training of a linear regression and a random forest regressor. 
+House prices vary on various different features attached to each house. This project focuses on the training, testing, and comparison of a linear regression and a random forest regressor on Ames Housing and Real Estate data.
 
 ## data (not included. Using .gitignore)
 
