@@ -109,12 +109,12 @@ def drawRegression(X,y,b,m,spreadValue,name,folder,boxCoxLambda):
         plt.ylabel("sales price")
         title = f'Sales Price vs {name}'
         plt.title(f'{title} spreadValue={spreadValue}')
-        plt.savefig(f'../images/{folder}/{name}.png')
+        plt.savefig(f'../images/{folder}/{name}.jpg')
     else:
         plt.ylabel(f'boxcox(SalesPrice,{boxCoxLambda})')
         title = f'boxcox(SalesPrice,{boxCoxLambda}) vs {name}'
         plt.title(f'{title} spreadValue={spreadValue}')
-        plt.savefig(f'../images/{folder}/{title}.png')
+        plt.savefig(f'../images/{folder}/{title}.jpg')
     plt.close()
 
 def engineerFeature(xTrain,newX,y,name):
@@ -170,12 +170,15 @@ def engineerSmallFeature(xTrain,newX,y,name):
     bestScore = np.max([baseScore,powerScore,boxCoxScore])
     if bestScore == powerScore:
         xTrain[powerName] = xPow
+        IsHomoskedastic(xPow,y,powerName)
     elif bestScore == boxCoxScore:
         transformed_new_x = InvBoxCox(newX,roundedLambda,m,b)
         transformedName = f'{name}_invbc_l{roundedLambda}_m{m}_b{b}'
         xTrain[transformedName] = transformed_new_x
+        IsHomoskedastic(transformed_new_x,y,transformedName)
     else:
         xTrain[name] = newX
+        IsHomoskedastic(newX,y,name)
     return xTrain
 
 
@@ -234,10 +237,10 @@ def checkNormality(values,name,boxCoxValue):
     qqplot(values,line='s',ax=axs[1])
     if (boxCoxValue == None):
         imageTitle = f'{name} Normal Errors Check'
-        plt.savefig(f'../images/normalCheck/{imageTitle.replace(" ","")}.png')
+        plt.savefig(f'../images/normalCheck/{imageTitle.replace(" ","")}.jpg')
     else:
         imageTitle = f'boxcox({boxCoxValue}) vs {name} Normal Errors Check'
-        plt.savefig(f'../images/normalCheck/{imageTitle.replace(" ","")}.png')
+        plt.savefig(f'../images/normalCheck/{imageTitle.replace(" ","")}.jpg')
     plt.close()
 
 def hasInfOrNanValues(arr):
@@ -256,6 +259,6 @@ def plotCorrelation(x,y,name):
     fitX = np.linspace(min(x),max(x),100)
     plt.plot(fitX,m*fitX+b)
     plt.title(f'{name} R={round(corrVal,2)}')
-    plt.savefig(f'../images/sigCorrs/{name}.png')
+    plt.savefig(f'../images/sigCorrs/{name}.jpg')
     plt.close()
     
